@@ -222,6 +222,7 @@ Func _IRC_FormatMessage($sMessage)
 	Local $aMessage = StringSplit($sMessage, ' ')
 	Local $iStart = 2
 	Local $aPrefixArray[2]
+	$aMessage[$aMessage[0]] = StringTrimRight($aMessage[$aMessage[0]], 2) ; Trim @CRLF
 	If StringLeft($aMessage[1], 1) = $IRC_TRAILING_PARAMETER_INDICATOR Then
 		$iStart = 3
 		$aPrefixArray[$IRC_MSGFORMAT_PREFIX] = StringTrimLeft($aMessage[1], 1)
@@ -230,10 +231,10 @@ Func _IRC_FormatMessage($sMessage)
 		$aPrefixArray[$IRC_MSGFORMAT_PREFIX] = ""
 		$aPrefixArray[$IRC_MSGFORMAT_COMMAND] = $aMessage[1]
 	EndIf
-	For $i = $iStart To $aMessage[0] - 1
+	For $i = $iStart To $aMessage[0]
 		If StringLeft($aMessage[$i], 1) = $IRC_TRAILING_PARAMETER_INDICATOR Then
 			$aMessage[$i] = StringTrimLeft(_ArrayToString($aMessage, ' ', $i, $aMessage[0]), 1)
-			_ArrayDelete($aMessage, ($i + 1) & '-' & $aMessage[0])
+			If Not $i = $aMessage[0] Then _ArrayDelete($aMessage, ($i + 1) & '-' & $aMessage[0])
 			ExitLoop
 		EndIf
 	Next
