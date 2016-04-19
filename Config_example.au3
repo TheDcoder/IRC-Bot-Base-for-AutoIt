@@ -9,3 +9,5 @@ Global Const $PASSWORD = "" ; Password of your bot's account.
 
 Global Const $NICKNAME = "" ; Specify your bot's nickname here.
 Global Const $REALNAME = "" ; Specify a real (or fake) name for your bot.
+
+Global Const $CHANNEL = "" ; Specify the main channel of the bot. (optional, you can configure multiple channels in Bot.au3)

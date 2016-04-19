@@ -131,7 +131,6 @@ Func _IRC_CapRequire($iSocket, $sCapability)
 		$aMessage = _IRC_WaitForNextMsg($iSocket, True)
 		If @error Then Return SetError(2, @extended, False)
 	Until $aMessage[$IRC_MSGFORMAT_COMMAND] = "CAP"
-	_ArrayDisplay($aMessage)
 	Return $aMessage[3] = "ACK"
 EndFunc
 
