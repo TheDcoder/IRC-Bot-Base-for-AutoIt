@@ -1,6 +1,7 @@
 # IRC Bot Base for AutoIt
 
 This is a readmade and excellent bot base for AutoIt, Some of its main features are: 
+
 1. Uses an excellent IRC lib (or UDF) which supports Custom Logging.
 2. Easy to read, understand and modify.
 3. Lightweigth and fast!
