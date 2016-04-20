@@ -13,3 +13,8 @@ Global Const $REALNAME = "" ; Specify a real (or fake) name for your bot.
 Global Const $CHANNEL = "" ; Specify the main channel of the bot. (optional, you can configure multiple channels in Bot.au3)
 
 Global $g_sBotFunction = "_Bot_DefaultBotFunction" ; The bot function...
+
+Global $g_oOpUsers = ObjCreate("Scripting.Dictionary")
+Global $g_oAdminUsers = ObjCreate("Scripting.Dictionary")
+
+$g_oAdminUsers.Add("", "") ; Specify your hostname in the first parameter, you can leave. You can add more Admins if you want

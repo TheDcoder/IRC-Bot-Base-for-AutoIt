@@ -1,5 +1,7 @@
 #include <Array.au3>
+#include <InetConstants.au3>
 #include <MsgBoxConstants.au3>
+#include <String.au3>
 #include "Config.au3"
 #include "IRC.au3"
 
@@ -7,11 +9,6 @@ Opt("TCPTimeout", 1000)
 
 Global $g_iServerSocket
 Global $g_aMessage[0]
-
-Global $g_oOpUsers = ObjCreate("Scripting.Dictionary")
-Global $g_oAdminUsers = ObjCreate("Scripting.Dictionary")
-
-$g_oAdminUsers.Add("unaffiliated/thedcoder", "")
 
 _Bot_Connect()
 
@@ -33,6 +30,12 @@ Func _Bot_Connect()
 	If @error Then Exit MsgBox($MB_ICONERROR, "Error while setting the nickname!", "An connection error occured during communication with the server! (@error: " & @error & ')')
 EndFunc
 
+Func _Bot_Quit($sReason)
+	_IRC_Quit($g_iServerSocket, $sReason)
+	_IRC_Disconnect($g_iServerSocket)
+	Exit
+EndFunc
+
 Func _Bot_DefaultBotFunction($aMessage)
 	Local Const $COMMAND_PREFIX = '!'
 	Switch $aMessage[$IRC_MSGFORMAT_COMMAND]
@@ -49,13 +52,32 @@ Func _Bot_DefaultBotFunction($aMessage)
 
 				Case "quit"
 					If _Bot_IsAdmin($aMessage[$IRC_PRIVMSG_SENDER_HOSTMASK]) Then
-						_IRC_Quit($g_iServerSocket, "Quit Requested by " & $aMessage[$IRC_PRIVMSG_SENDER])
-						_IRC_Disconnect($g_iServerSocket)
-						Exit
+						_Bot_Quit("Quit Requested by " & $aMessage[$IRC_PRIVMSG_SENDER])
 					Else
 						_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], "Never.")
 					EndIf
 
+				Case "notice"
+					If _Bot_IsOP($aMessage[$IRC_PRIVMSG_SENDER_HOSTMASK]) Then
+						_IRC_SendNotice($g_iServerSocket, $aCommand[2], _ArrayToString($aCommand, ' ', 3))
+					EndIf
+
+				Case "msg"
+					If _Bot_IsOP($aMessage[$IRC_PRIVMSG_SENDER_HOSTMASK]) Then
+						_IRC_SendMessage($g_iServerSocket, $aCommand[2], _ArrayToString($aCommand, ' ', 3))
+					EndIf
+
+				Case 'lucky'
+					If $aCommand[0] > 1 Then
+						Local $vLuckyJSON = InetRead("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=1&q=" & _ArrayToString($aCommand, ' ', 2), $INET_FORCERELOAD)
+						If @error Then
+							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], 'Failed to get results from google (' & @error & ').')
+						Else
+							$vLuckyJSON = BinaryToString($vLuckyJSON)
+							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], '"' & _StringBetween($vLuckyJSON,'"titleNoFormatting":"','"')[0] & '"')
+							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], _StringBetween($vLuckyJSON,'"url":"','"')[0])
+						EndIf
+					EndIf
 			EndSwitch
 
 		Case "PING"
