@@ -12,8 +12,6 @@ Global $g_aMessage[0]
 
 _Bot_Connect()
 
-_IRC_JoinChannel($g_iServerSocket, $CHANNEL)
-
 While 1
 	$g_aMessage = _IRC_WaitForNextMsg($g_iServerSocket, True)
 	If @error Then
