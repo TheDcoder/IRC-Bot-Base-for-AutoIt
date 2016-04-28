@@ -12,8 +12,6 @@ Global $g_aMessage[0]
 
 _Bot_Connect()
 
-_IRC_JoinChannel($g_iServerSocket, $CHANNEL)
-
 While 1
 	$g_aMessage = _IRC_WaitForNextMsg($g_iServerSocket, True)
 	Call($g_sBotFunction, $g_aMessage)
@@ -28,6 +26,10 @@ Func _Bot_Connect()
 	If @error Then Exit MsgBox($MB_ICONERROR, "Error while setting the user!", "An connection error occured during communication with the server! (@error: " & @error & ')')
 	_IRC_SetNick($g_iServerSocket, $NICKNAME)
 	If @error Then Exit MsgBox($MB_ICONERROR, "Error while setting the nickname!", "An connection error occured during communication with the server! (@error: " & @error & ')')
+	For $sChannel In $CHANNELS
+		_IRC_JoinChannel($g_iServerSocket, $sChannel)
+	Next
+	Return True
 EndFunc
 
 Func _Bot_Quit($sReason)
@@ -78,6 +80,9 @@ Func _Bot_DefaultBotFunction($aMessage)
 							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], _StringBetween($vLuckyJSON,'"url":"','"')[0])
 						EndIf
 					EndIf
+
+				Case 'disconnect'
+					_IRC_Disconnect($g_iServerSocket)
 			EndSwitch
 
 		Case "PING"
