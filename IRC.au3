@@ -651,7 +651,7 @@ Func _IRC_WaitForNextMsg($iSocket, $bFormat = False)
 	Local $vMessage
 	Do
 		$vMessage = _IRC_ReceiveRaw($iSocket)
-		If @error Then SetError(1, @extended, '')
+		If @error Then Return SetError(1, @extended, "")
 		Sleep(10)
 	Until Not $vMessage = ''
 	If $bFormat Then $vMessage = _IRC_FormatMessage($vMessage)
