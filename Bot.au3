@@ -31,6 +31,10 @@ Func _Bot_Connect()
 	If @error Then Exit MsgBox($MB_ICONERROR, "Error while setting the user!", "An connection error occured during communication with the server! (@error: " & @error & ')')
 	_IRC_SetNick($g_iServerSocket, $NICKNAME)
 	If @error Then Exit MsgBox($MB_ICONERROR, "Error while setting the nickname!", "An connection error occured during communication with the server! (@error: " & @error & ')')
+	For $sChannel In $CHANNELS
+		_IRC_JoinChannel($g_iServerSocket, $sChannel)
+	Next
+	Return True
 EndFunc
 
 Func _Bot_Quit($sReason)
