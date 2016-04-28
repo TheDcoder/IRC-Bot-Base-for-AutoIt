@@ -16,6 +16,11 @@ _IRC_JoinChannel($g_iServerSocket, $CHANNEL)
 
 While 1
 	$g_aMessage = _IRC_WaitForNextMsg($g_iServerSocket, True)
+	If @error Then
+		Call($__g_IRC_sLoggingFunction, "Error! Got disconnected from the IRC Server! TCPRecv @error: " & @extended, False)
+		_Bot_Connect()
+		ContinueLoop
+	EndIf
 	Call($g_sBotFunction, $g_aMessage)
 WEnd
 
