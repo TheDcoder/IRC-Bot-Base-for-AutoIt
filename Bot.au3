@@ -81,8 +81,14 @@ Func _Bot_DefaultBotFunction($aMessage)
 							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], 'Failed to get results from google (' & @error & ').')
 						Else
 							$vLuckyJSON = BinaryToString($vLuckyJSON)
-							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], '"' & _StringBetween($vLuckyJSON,'"titleNoFormatting":"','"')[0] & '"')
-							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], _StringBetween($vLuckyJSON,'"url":"','"')[0])
+							Local $aStringBetween = _StringBetween($vLuckyJSON,'"titleNoFormatting":"','"')
+							If Not @error Then
+								_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], '"' & $aStringBetween[0] & '"')
+								$aStringBetween = _StringBetween($vLuckyJSON,'"url":"','"')
+								_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], $aStringBetween[0])
+							Else
+								_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], "Cannot find any results.")
+							EndIf
 						EndIf
 					EndIf
 			EndSwitch
