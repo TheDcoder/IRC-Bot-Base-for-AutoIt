@@ -3,6 +3,7 @@
 
 Global Const $SERVER = "" ; IP or Hostname of the IRC Server.
 Global Const $PORT = "" ; Port of the IRC Server to connect. (SSL PORTS ARE NOT SUPPORTED!!!)
+Global Const $TIMEOUT = 42000 ; TCP Timeout to use in milliseconds. (Its recommended to keep 42000 ms [42 secs])
 
 Global Const $USERNAME = "" ; Sepcify your bot's username here (not the nickname).
 Global Const $PASSWORD = "" ; Password of your bot's account.

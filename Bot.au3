@@ -5,7 +5,7 @@
 #include "Config.au3"
 #include "IRC.au3"
 
-Opt("TCPTimeout", 1000)
+Opt("TCPTimeout", $TIMEOUT)
 
 Global $g_iServerSocket
 Global $g_aMessage[0]
