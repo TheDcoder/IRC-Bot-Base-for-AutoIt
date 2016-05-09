@@ -9,7 +9,7 @@ This is a readmade and excellent bot base for AutoIt, Some of its main features 
 5. Built-in Authentication System
 6. Seperate file for easy bot configuaration.
 7. Felxible and highly modifiable.
-8. Does not require any other external software (exception for the !lucky command which uses IE).
+8. Does not require any other external software.
 
 ...etc...
 

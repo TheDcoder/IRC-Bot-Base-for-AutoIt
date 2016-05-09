@@ -73,24 +73,6 @@ Func _Bot_DefaultBotFunction($aMessage)
 					If _Bot_IsOP($aMessage[$IRC_PRIVMSG_SENDER_HOSTMASK]) Then
 						_IRC_SendMessage($g_iServerSocket, $aCommand[2], _ArrayToString($aCommand, ' ', 3))
 					EndIf
-
-				Case 'lucky'
-					If $aCommand[0] > 1 Then
-						Local $vLuckyJSON = InetRead("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=1&q=" & _ArrayToString($aCommand, ' ', 2), $INET_FORCERELOAD)
-						If @error Then
-							_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], 'Failed to get results from google (' & @error & ').')
-						Else
-							$vLuckyJSON = BinaryToString($vLuckyJSON)
-							Local $aStringBetween = _StringBetween($vLuckyJSON,'"titleNoFormatting":"','"')
-							If Not @error Then
-								_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], '"' & $aStringBetween[0] & '"')
-								$aStringBetween = _StringBetween($vLuckyJSON,'"url":"','"')
-								_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], $aStringBetween[0])
-							Else
-								_IRC_SendMessage($g_iServerSocket, $aMessage[$IRC_PRIVMSG_REPLYTO], "Cannot find any results.")
-							EndIf
-						EndIf
-					EndIf
 			EndSwitch
 
 		Case "PING"
