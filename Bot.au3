@@ -2,10 +2,11 @@
 #include <InetConstants.au3>
 #include <MsgBoxConstants.au3>
 #include <String.au3>
-#include "Config.au3"
 #include "IRC.au3"
 
 Opt("TCPTimeout", $TIMEOUT)
+
+#include "Config.au3" ; Load configuration
 
 Global $g_iServerSocket
 Global $g_aMessage[0]
