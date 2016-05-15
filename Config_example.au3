@@ -18,4 +18,4 @@ Global $g_sBotFunction = "_Bot_DefaultBotFunction" ; The bot function...
 Global $g_oOpUsers = ObjCreate("Scripting.Dictionary")
 Global $g_oAdminUsers = ObjCreate("Scripting.Dictionary")
 
-$g_oAdminUsers.Add("", "") ; Specify your hostname in the first parameter, you can leave. You can add more Admins if you want
+$g_oAdminUsers.Add("", "") ; Specify your hostname in the first parameter, you can leave the second one empty. You can add more Admins if you want
