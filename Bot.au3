@@ -25,7 +25,7 @@ WEnd
 
 Func _Bot_Connect()
 	$g_iServerSocket = _IRC_Connect($SERVER, $PORT)
-	If @error Then Exit MsgBox($MB_ICONERROR, "Connection Error", "Failed to connect to the IRC Server! (@error: " & @error & ')')
+	If @error Then Exit MsgBox($MB_ICONERROR, "Connection Error", "Failed to connect to the IRC Server! (@error: " & @error & ' & @extended: ' & @extended & ')')
 	_IRC_AuthPlainSASL($g_iServerSocket, $USERNAME, $PASSWORD)
 	If @error Then Exit MsgBox($MB_ICONERROR, "Login Failed!", "Failed to login into the IRC Server! (@error: " & @error & ' & @extended: ' & @extended & ')')
 	_IRC_SetUser($g_iServerSocket, $USERNAME, $REALNAME)
